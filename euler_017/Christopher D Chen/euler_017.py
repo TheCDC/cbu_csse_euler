@@ -39,8 +39,8 @@ def words(n):
 		if exponent ==0:
 			pass
 def main():
-	print([words(i) for i in range(1,110)])
-	print(words(331).replace(' ',''))
+	# print([words(i) for i in range(1,110)])
+	# print(words(331).replace(' ',''))
 	print(sum([len(words(i).replace(' ','')) for i in range(1,1000+1)]))
 if __name__ == '__main__':
 	main()
