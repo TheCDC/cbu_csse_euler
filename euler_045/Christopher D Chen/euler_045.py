@@ -67,7 +67,7 @@ def main():
     i = start + 1
     while not test(i):
         i += 1
-    print(tn(i))
+    print(int(tn(i)))
 
 if __name__ == '__main__':
     main()
