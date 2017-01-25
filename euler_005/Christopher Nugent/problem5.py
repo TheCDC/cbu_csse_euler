@@ -1,8 +1,3 @@
-if __name__ == '__main__':
-    print(problem5())
-
-
-
 def problem5():
     from collections import Counter    
     c = Counter()    
@@ -50,3 +45,8 @@ def count_prime_factors ( input_value ):
             value_to_check += 2
 
     return counter
+
+
+
+if __name__ == '__main__':
+    print(problem5())
