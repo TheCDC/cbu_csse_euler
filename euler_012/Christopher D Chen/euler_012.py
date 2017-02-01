@@ -25,28 +25,20 @@ divisors?
 """
 
 from utils import numDivisors
-# print(numDivisors(68719476735), primeFactors(68719476735))
+
+
 def main():
-    n = 1 
+    n = 1
     numdivs = numDivisors(n)
-    most = numdivs
-    tri = sum(range(n+1))
-    tris = [n]
+    tri = sum(range(n + 1))
     try:
         while numdivs < 501:
-            if numdivs > most:
-                most = numdivs
-                # print(n,tri, numdivs)
             n += 1
-            tri = sum(range(n+1))
-            tris.append(tri)
+            tri = sum(range(n + 1))
             numdivs = numDivisors(tri)
     except KeyboardInterrupt:
         print("Stopped at:", n, numdivs)
-    # print(n,tri, numDivisors(tri),len(nd))
-    # print(tri)
-    print(sum(range(500)))
-    # print(n)
-    # pprint([(i,numDivisors(i)) for i in tris[-10:]])
+    print(tri)
+
 if __name__ == '__main__':
     main()
