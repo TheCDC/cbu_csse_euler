@@ -1,3 +1,2 @@
-# Currently under construction
+# CBU CS Club Project Euler Repo
 
-Just put your code for a problem in an appropriateley named folder.
