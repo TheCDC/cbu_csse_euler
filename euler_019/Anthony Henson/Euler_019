@@ -1,0 +1,63 @@
+/**
+ * Created by AD on 2/14/2017.
+ */
+public class euler_019 {
+
+	//Outputs the number of days in the month given the month (starting with 0) and the year.
+    private static int monthDays (int month, int year) {
+        if (month > 12) {
+            System.out.println("invlaid month");
+            return 0;
+        }
+        if (month == 3 || month == 5 || month == 8 || month == 10)
+            return 30;
+        if (month == 1) {
+            if (year % 4 == 0 && year % 400 != 0)
+                return 29;
+            else return 28;
+        }
+        else
+            return 31;
+    }
+
+    //Builds a calendar, then takes all of the first Sundays of the month out.
+    public static int sundayCount (int year) {
+        int currentDay = 0;
+        int sundayCount = 0;
+        int oldCount = 52;
+        
+        //Calendar starts in 1900
+        if (year < 1901)
+            System.out.println("Invalid year");
+        
+        String months[] = {"January", "February", "March", "April", "May", "June","July","August","September", "October", "November", "December"};
+        String days[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        
+        //Builds a calendar
+        for (int i = 1900; i <= year; i++) {
+
+            for (int j = 0; j < months.length; j++) {
+                int carryOver = currentDay;
+
+                for (int k = 0; k < monthDays(j,i); k++) {
+                    currentDay = ((k + carryOver)%7) + 0;
+                    
+                    //increment if day 1 == Sunday
+                    if (i > 1900 && k == 0 && days[((carryOver + k)%7)].equals("Sunday")) 
+                        sundayCount++;
+                }
+
+                if (sundayCount > oldCount) //unnecessary, but I used it for checking if I was on the right track
+                    System.out.println("The month of " + months[j] + ", " + i + " years after the death of our Lord and Saviour Jesus Christ, began on a Sunday. This was the " + sundayCount + "th such month.");
+
+                oldCount = sundayCount;
+            }
+        }
+        return sundayCount;
+    }
+
+    public static void main(String[] args){
+        int numberOfSundays = sundayCount(2000);
+        System.out.println("The answer is " + numberOfSundays);
+    }
+}
