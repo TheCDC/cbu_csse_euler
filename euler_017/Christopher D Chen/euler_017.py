@@ -16,31 +16,38 @@ with British usage.
 
 """
 from utils import numDigits, nthDigit
+
+
 def words(n):
-	s = ''
-	underTwenty =dict(enumerate(["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"]))
-	tens = dict(enumerate(["","ten","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"]))
-	if n >= 100:
-		s+= underTwenty[nthDigit(n,2,10)] + ' hundred'
-		if n % 100:
-			s += " and "
-	if n%100 < 20 and n%100 > 0:
+    s = ''
+    underTwenty = dict(enumerate(["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+                                  "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]))
+    tens = dict(enumerate(["", "ten", "twenty", "thirty", "forty",
+                           "fifty", "sixty", "seventy", "eighty", "ninety"]))
+    if n >= 100:
+        s += underTwenty[nthDigit(n, 2, 10)] + ' hundred'
+        if n % 100:
+            s += " and "
+    if n % 100 < 20 and n % 100 > 0:
 
-		s+= underTwenty[n%100]
-	else:
-		s += tens[nthDigit(n,1,10)] + ' ' + (underTwenty[n%10] if n%10 > 0 else '')
-		pass
+        s += underTwenty[n % 100]
+    else:
+        s += tens[nthDigit(n, 1, 10)] + ' ' + \
+            (underTwenty[n % 10] if n % 10 > 0 else '')
+        pass
 
-	return s
-	# d = {0:}
-	suffix = ''
-	prefix = ''
-	for exponent in range(numDigits(n,10)):
-		if exponent ==0:
-			pass
+    return s
+    # d = {0:}
+    suffix = ''
+    prefix = ''
+    for exponent in range(numDigits(n, 10)):
+        if exponent == 0:
+            pass
+
+
 def main():
-	# print([words(i) for i in range(1,110)])
-	# print(words(331).replace(' ',''))
-	print(sum([len(words(i).replace(' ','')) for i in range(1,1000+1)]))
+    # print([words(i) for i in range(1,110)])
+    # print(words(331).replace(' ',''))
+    print(sum([len(words(i).replace(' ', '')) for i in range(1, 1000 + 1)]))
 if __name__ == '__main__':
-	main()
+    main()
