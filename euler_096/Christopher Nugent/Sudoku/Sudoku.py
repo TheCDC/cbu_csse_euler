@@ -113,10 +113,6 @@ class SudokuTable:
 		return self.isComplete() and not self.anyBreaksRules()
 
 
-	def isSolved(board):
-		return board.isSolved()
-
-
 	def findFreebies(self):
 		found = 0
 		for y in range(self.size):
@@ -133,17 +129,31 @@ class SudokuTable:
 		while(self.findFreebies()):
 			1
 
+	def firstUnknown(self):
+		for y in range(self.size):
+			for x in range(self.size):
+				if self.get(x, y) == 0:
+					return [x, y]
 
-	def guessSolve(self):
+		return False
+
+	def guessSolve(board, depth = 0):
+		print(depth)
 		#find available freebies
-		self.findAllFreebies()
+		#self.findAllFreebies()
 
-		if self.isSolved():
-			return self
+		target = board.firstUnknown()
+		for possible in board.possibles(target[0], target[1]):
+			board.set(target[0], target[1], possible)
+			if board.isSolved():
+				return board
+			nextStep = SudokuTable.guessSolve(board, depth + 1)
+			if nextStep != -1:
+				return nextStep
+			board.set(target[0], target[1], 0)
 
-		for
-
-
+		return -1
+		
 
 
 	def print(self):
