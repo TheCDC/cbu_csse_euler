@@ -1,5 +1,4 @@
 class SudokuTable:
-	
 
 	def __init__(self, para):
 		if type(para) == type(1):
@@ -19,8 +18,21 @@ class SudokuTable:
 				#print(i % self.size)
 				self.table[i // self.size][i % self.size] = ord(para[i]) - ord('0')		
 
+
 	def copy(self):
+		"""Create a deep copy using the serial of the table"""
 		return SudokuTable(self.serial())
+
+
+	def serial(self):
+		"""Converts the SudokuTable object to a serial that can be used to recreate the table. Implicity contains
+		size information"""
+		serial = ''
+		for row in self.table:
+			for item in row:
+				serial += chr(item + ord('0'))
+
+		return serial
 
 
 	def get(self, x, y):
@@ -40,6 +52,7 @@ class SudokuTable:
 
 
 	def subgrid(self, n):
+		"""Returns the nth subgrid of the table, with 0 being the top left subgrid"""
 		y = self.root * (n // self.root)
 		x = self.root * (n % self.root)
 		#print("Trying grid of " + str(x) + ", " + str(y) )
@@ -60,6 +73,7 @@ class SudokuTable:
 
 
 	def possibles(self, x, y):
+		"""Returns a list of all the allowed values for the element in x, y"""
 		if self.get(x, y) != 0:
 			return []
 
@@ -84,6 +98,7 @@ class SudokuTable:
 
 
 	def isComplete(self):
+		"""Returns true if all values of the table are filled"""
 		for row in self.table:
 			for item in row:
 				if item == 0:
@@ -92,6 +107,7 @@ class SudokuTable:
 
 
 	def breaksRules(self, subset):
+		"""Checks if a subset of the table (row, column, or subgrid) breaks any Sudoku rules"""
 		expected = [i for i in range(1, self.size + 1)]
 		for item in subset:
 			if item:
@@ -103,6 +119,7 @@ class SudokuTable:
 
 
 	def anyBreaksRules(self):
+		"""Checks for any rule breaking in the entire table"""
 		for n in range(self.size):
 			if self.breaksRules(self.row(n)) or self.breaksRules(self.col(n)) or self.breaksRules(self.subgrid(n)):
 				return True
@@ -110,10 +127,12 @@ class SudokuTable:
 
 
 	def isSolved(self):
+		"""Returns true if the table is fully solved"""
 		return self.isComplete() and not self.anyBreaksRules()
 
 
 	def findFreebies(self):
+		"""Finds any freebies in the table, returning the number of freebies found"""
 		found = 0
 		for y in range(self.size):
 			for x in range(self.size):
@@ -126,10 +145,12 @@ class SudokuTable:
 
 
 	def findAllFreebies(self):
+		"""Finds all possible freebies in the table, including those cascaded from earlier freebies"""
 		while(self.findFreebies()):
 			1
 
 	def firstUnknown(self):
+		"""Returns the coordinates of the first 0 in the SudokuTable as an array"""
 		for y in range(self.size):
 			for x in range(self.size):
 				if self.get(x, y) == 0:
@@ -137,33 +158,35 @@ class SudokuTable:
 
 		return False
 
-	def guessSolve(board, depth = 0):
-		print(depth)
-		#find available freebies
-		#self.findAllFreebies()
 
+	def solve(self):
+		"""Solves the table using freebies and recursive backtracking"""
+		self = SudokuTable.guessSolve(self)
+
+
+	def guessSolve(board, depth = 0):
+		"""Returns a solved version of the table without solving the original"""
+		#print(depth)
+
+		# Find available freebies. May slow down or speed up the function, depending on the table.
+		board.findAllFreebies()
+		if(board.isSolved()):
+			return board
+
+		# Guess, recurse, and backtrack
 		target = board.firstUnknown()
 		for possible in board.possibles(target[0], target[1]):
 			board.set(target[0], target[1], possible)
 			if board.isSolved():
 				return board
-			nextStep = SudokuTable.guessSolve(board, depth + 1)
+			nextStep = SudokuTable.guessSolve(board.copy(), depth + 1)
 			if nextStep != -1:
 				return nextStep
 			board.set(target[0], target[1], 0)
 
 		return -1
-		
 
 
 	def print(self):
 		for row in self.table:
 			print(str(row))
-
-	def serial(self):
-		serial = ''
-		for row in self.table:
-			for item in row:
-				serial += chr(item + ord('0'))
-
-		return serial
