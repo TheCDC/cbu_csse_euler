@@ -1,14 +1,18 @@
+from BaseConverter import BaseConverter
+
 class SudokuTable:
 
 	def __init__(self, para):
+		# empty table
 		if type(para) == type(1):
 			self.table = [[0 for column in range(para**2)] for row in range(para**2)]
 			self.root = para
 			self.size = para**2
+		# from serial
 		elif type(para) == type("abc"):
 			total = len(para)
-			if(total**(1/4) % 1 != 0):
-				raise ValueError
+			if total**(1/4) % 1 != 0:
+				raise ValueError('The length of the serial must be of lenth n**4 where n is some integer.')
 			self.size = int(total**(1/2)) 
 			self.root = int(total **(1/4))
 			self.table = [[0 for column in range(self.root**2)] for row in range(self.root**2)]
@@ -16,7 +20,7 @@ class SudokuTable:
 				#print(i)
 				#print(i // self.size)
 				#print(i % self.size)
-				self.table[i // self.size][i % self.size] = ord(para[i]) - ord('0')		
+				self.table[i // self.size][i % self.size] = BaseConverter.wide2int(para[i])		
 
 
 	def copy(self):
@@ -30,7 +34,7 @@ class SudokuTable:
 		serial = ''
 		for row in self.table:
 			for item in row:
-				serial += chr(item + ord('0'))
+				serial += BaseConverter.int2wide(item)
 
 		return serial
 
@@ -87,13 +91,13 @@ class SudokuTable:
 				if other:
 					possibles.remove(other)
 			except ValueError:
-				1
+				pass
 		for other in self.subgridOf(x, y):
 			try:
 				if other:
 					possibles.remove(other)
 			except ValueError:
-				1
+				pass
 		return possibles
 
 
@@ -189,4 +193,10 @@ class SudokuTable:
 
 	def print(self):
 		for row in self.table:
-			print(str(row))
+			for item in row:
+				print(BaseConverter.int2wide(item), end=' ')
+			print()
+
+
+	def euler(self):
+		return self.get(0, 0) * 100 + self.get(1, 0) * 10 + self.get(2, 0)
