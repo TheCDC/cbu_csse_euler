@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import pydot
 
+
 class Breadcrumb():
 
     """Used as a marker to de-recurse the list result from backtracking."""
@@ -93,13 +94,14 @@ def main() -> None:
     orders = []
     for i in samples:
         orders.extend(get_rules(i))
-        
+
     # create and plot the graph of rules
     g = pydot.Dot()
     for o in set(orders):
         e = pydot.Edge(*o)
         g.add_edge(e)
     g.write_png("079_graph.png")
+
     def my_next_choice(guess):
         """Problem-specific function that return all possible next choices
         from a guess."""
@@ -115,4 +117,3 @@ def main() -> None:
     print()
 if __name__ == '__main__':
     main()
-
