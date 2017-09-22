@@ -9,24 +9,30 @@ def digits(n):
 
 
 def permuted(n):
+    """Return the sum of each digit squared."""
     return sum(d**2 for d in digits(n))
 
 
 def main():
+    # set of terminators
     targets = {1, 89}
+    # create a structure to remember what numbers terminate where
     results = {
         t: {t} for t in targets
     }
     MAX = 10 * 10**6
     for i in range(1, MAX):
-        if i % (MAX // 10) == 0:
-            print(i / MAX)
         n = i
         while True:
+            # find which terminating numbers this number has previously been
+            # found to reach
             matches = [t for t in results.keys() if n in results[t]]
+            # if any terminators match, add this number to the corresponding
+            # set
             if len(matches) > 0:
                 results[matches[0]].add(i)
                 break
+            # if the number has not yet terminated, permute is
             n = permuted(n)
     print(len(results[89]))
 
