@@ -26,21 +26,6 @@ def test(lst, rules) -> bool:
     return True
 
 
-def backtrack_old(guess, choice_pool, rules, depth=0) -> list:
-    # print(locals())
-    def bt(guess, choice_pool, rules, depth):
-        tails = []
-        for i, c in enumerate(choice_pool):
-            head = guess + [c]
-            if test(head, rules):
-                tail = bt(head,
-                          choice_pool[:i] + choice_pool[i + 1:],
-                          rules, depth=depth + 1)
-                tails.extend([Breadcrumb(depth)] + head + tail)
-        return tails
-    return interpret(bt(guess, choice_pool, rules, depth))
-
-
 def backtrack(guess, next_choice_func, test_func, depth=0) -> list:
     # print(locals())
     def bt(guess, next_choice_func, test_func, depth):
