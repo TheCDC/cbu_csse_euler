@@ -38,7 +38,7 @@ def main():
             # if the number has not yet terminated, permute is
             n = permuted(n)
     print(len(results[89]))
-    print(num_added)
+    # print(num_added)
 
 
 if __name__ == '__main__':
