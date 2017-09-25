@@ -19,7 +19,7 @@ def main():
 		content = f.read()
 		m = map_from_lines(content)
 		outs = counters_from_dict(m)
-		print(outs.most_common()[0])
+		print(outs.most_common())
 
 if __name__ == "__main__":
 	main()
