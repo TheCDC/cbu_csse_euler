@@ -17,10 +17,6 @@ def generate_pandigitals(exclude=None):
                 yield [d] + i
 
 
-primes = [2, 3, 5, 7, 11, 13, 17]
-digit_index_offset = 1
-
-
 def list_to_num(l, b):
     n = 0
     for i in l:
@@ -28,9 +24,13 @@ def list_to_num(l, b):
     return n
 
 
+PRIMES = [2, 3, 5, 7, 11, 13, 17]
+INDEX_OFFSET = 1
+
+
 def check_substr_divibility(l):
-    for idx, p in enumerate(primes):
-        i = digit_index_offset + idx
+    for idx, p in enumerate(PRIMES):
+        i = INDEX_OFFSET + idx
         digit_slice = l[i:i + 3]
         n = list_to_num(digit_slice, 10)
         if n % p != 0:
