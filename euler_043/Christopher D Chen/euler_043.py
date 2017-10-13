@@ -1,23 +1,25 @@
-
 digits = set(range(10))
 
 
-def generate_pandigitals(exclude=None):
+def generate_pandigitals(exclude=frozenset()):
     # get set of unused digits
-    if not exclude:
-        exclude = set()
     remaining = digits.difference(exclude)
-    for d in sorted(remaining):
+    for d in remaining:
+        # base case of only one digit left
         if len(remaining) == 1:
             # yield a single item list
             # this allows for results to be concatenated
-            yield [set(remaining).pop()]
+            # fancy technique for retrieving single item from set
+            # without creating new set
+
+            yield [next(iter(remaining))]
         else:
             for i in generate_pandigitals(exclude.union({d})):
                 yield [d] + i
 
 
 def list_to_num(l, b):
+    # return sum(map(lambda t: t[0] * b**t[1], zip(l, reversed(range(len(l))))))
     n = 0
     for i in l:
         n = n * b + i
@@ -40,7 +42,7 @@ def check_substr_divibility(l):
 
 def main():
     s = 0
-    print(next(generate_pandigitals()))
+    # print(next(generate_pandigitals()))
     for n in generate_pandigitals():
         if check_substr_divibility(n):
             s += list_to_num(n, 10)
