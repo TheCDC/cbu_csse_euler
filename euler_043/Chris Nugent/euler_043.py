@@ -2,8 +2,8 @@ from collections import deque
 
 def get_pandigitals(current = 0, remaining = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}):
 	if not remaining:
-		yield current
-	for number inremaining:
+		yield current 
+	for number in remaining:
 		if current == 0 and number == 0:
 			continue
 		current *= 10
