@@ -1,4 +1,5 @@
 def digits(n):
+    """Return the base-10 digits of n."""
     if n == 0:
         return [0]
     ds = []
@@ -16,7 +17,7 @@ def permuted(n):
 def main():
     # set of terminators
     targets = {1, 89}
-    # create a structure to remember what numbers terminate where
+    #  structure to memorise where a number terminates
     results = {
         t: {t} for t in targets
     }

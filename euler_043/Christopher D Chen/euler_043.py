@@ -4,7 +4,7 @@ digits = set(range(10))
 def generate_pandigitals(exclude=frozenset()):
     # get set of unused digits
     remaining = digits.difference(exclude)
-    for d in remaining:
+    for d in sorted(remaining):
         # base case of only one digit left
         if len(remaining) == 1:
             # yield a single item list
@@ -41,7 +41,6 @@ def check_substr_divibility(l):
 
 def main():
     s = 0
-    # print(next(generate_pandigitals()))
     for n in generate_pandigitals():
         if check_substr_divibility(n):
             s += list_to_num(n, 10)

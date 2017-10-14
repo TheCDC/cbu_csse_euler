@@ -27,7 +27,7 @@ def list_to_num(l, b):
 
 def main():
     g = generate_pandigitals()
-    for i in range(10**6):
+    for _ in range(10**6):
         item = next(g)
     print(list_to_num(item, 10))
 
