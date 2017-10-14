@@ -9,12 +9,16 @@ def factorial(n):
     return c
 
 
-def test_check_substr_divibility():
+def test_generate_pandigitals():
     """Check that exactly `10!` pandigitals are generated."""
     count = 0
     for _ in generate_pandigitals():
         count += 1
     assert count == factorial(10)
+
+
+def test_check_substr_divibility():
+    assert check_substr_divibility(list(map(int, "1406357289")))
 
 
 def test_list_to_num():
@@ -24,6 +28,7 @@ def test_list_to_num():
         (([1], 10), 1),
         (([2], 10), 2),
         (([9, 9, 9, 9], 10), 9999),
+        (([5, 4, 3, 2, 1, 0], 10), 543210),
     ]
     for c in cases:
         args = c[0]

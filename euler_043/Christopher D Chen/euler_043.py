@@ -19,7 +19,6 @@ def generate_pandigitals(exclude=frozenset()):
 
 
 def list_to_num(l, b):
-    # return sum(map(lambda t: t[0] * b**t[1], zip(l, reversed(range(len(l))))))
     n = 0
     for i in l:
         n = n * b + i
