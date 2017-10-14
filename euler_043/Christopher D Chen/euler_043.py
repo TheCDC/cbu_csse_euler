@@ -1,18 +1,19 @@
 digits = set(range(10))
 
 
-def generate_pandigitals(exclude=frozenset()):
-    # get set of unused digits
-    remaining = sorted(digits.difference(exclude))
-    # base case of only one digit left
-    if len(remaining) == 1:
+def generate_pandigitals(current=None, unused=None):
+    if not current:
+        current = []
+    if not unused:
+        unused = set(digits)
+    if len(unused) == 1:
             # yield a single item list
             # this allows for results to be concatenated
-        yield [remaining[0]]
+        yield current + [next(iter(unused))]
     else:
-        for d in remaining:
-            for i in generate_pandigitals(exclude.union({d})):
-                yield [d] + i
+        for d in sorted(unused):
+            yield from generate_pandigitals(
+                current + [d], unused.difference({d}))
 
 
 def list_to_num(l, b):
