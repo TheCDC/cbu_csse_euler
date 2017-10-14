@@ -3,17 +3,14 @@ digits = set(range(10))
 
 def generate_pandigitals(exclude=frozenset()):
     # get set of unused digits
-    remaining = digits.difference(exclude)
-    for d in sorted(remaining):
-        # base case of only one digit left
-        if len(remaining) == 1:
+    remaining = sorted(digits.difference(exclude))
+    # base case of only one digit left
+    if len(remaining) == 1:
             # yield a single item list
             # this allows for results to be concatenated
-            # fancy technique for retrieving single item from set
-            # without creating new set
-
-            yield [next(iter(remaining))]
-        else:
+        yield [remaining[0]]
+    else:
+        for d in remaining:
             for i in generate_pandigitals(exclude.union({d})):
                 yield [d] + i
 
@@ -25,15 +22,12 @@ def list_to_num(l, b):
     return n
 
 
-PRIMES = [2, 3, 5, 7, 11, 13, 17]
-INDEX_OFFSET = 1
+DIVISORS = [1, 2, 3, 5, 7, 11, 13, 17]
 
 
 def check_substr_divibility(l):
-    for idx, p in enumerate(PRIMES):
-        i = INDEX_OFFSET + idx
-        digit_slice = l[i:i + 3]
-        n = list_to_num(digit_slice, 10)
+    for idx, p in reversed(list(enumerate(DIVISORS))):
+        n = list_to_num(l[idx:idx + 3], 10)
         if n % p != 0:
             return False
     return True
@@ -41,10 +35,10 @@ def check_substr_divibility(l):
 
 def main():
     s = 0
-    for n in generate_pandigitals():
-        if check_substr_divibility(n):
-            s += list_to_num(n, 10)
-            # print(n)
+    for digit_list in generate_pandigitals():
+        if check_substr_divibility(digit_list):
+            s += list_to_num(digit_list, 10)
+            # print(digit_list)
     print(s)
     # print(i)
 
