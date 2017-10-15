@@ -18,5 +18,6 @@ def main():
             primes.update({cur})
     print(max(primes))
 
+
 if __name__ == '__main__':
     main()

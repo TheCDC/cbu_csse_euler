@@ -18,5 +18,6 @@ def main():
     # print(val(2, 3), 2**3)
     # print(val(2, 4), 2**4)
 
+
 if __name__ == '__main__':
     main()

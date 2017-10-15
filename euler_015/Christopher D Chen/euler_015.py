@@ -2,6 +2,7 @@
 
 import functools
 
+
 def branches(coord, shape):
     bs = []
     # print(coord)
@@ -14,6 +15,7 @@ def branches(coord, shape):
     return bs
     # return [(x + 1 if x + 1 < xbound else x, y), (x, y + 1 if y + 1 < ybound else y)]
     # if x < xbound:
+
 
 @functools.lru_cache(maxsize=32)
 def numPaths(shape, coord=(0, 0)):
@@ -31,8 +33,6 @@ def numPaths(shape, coord=(0, 0)):
 
 
 def main():
-    xbound = 20
-    ybound = 20
     gridWidth = 20
     gridHeight = 20
 

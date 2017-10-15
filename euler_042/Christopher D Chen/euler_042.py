@@ -23,5 +23,7 @@ def main():
         if test(word):
             mysum += 1
     print(mysum)
+
+
 if __name__ == '__main__':
     main()

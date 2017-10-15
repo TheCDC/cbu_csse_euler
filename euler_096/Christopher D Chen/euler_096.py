@@ -63,5 +63,6 @@ def main():
             board += line
     print(corner_sum)
 
+
 if __name__ == '__main__':
     main()

@@ -34,12 +34,9 @@ def words(n):
     else:
         s += tens[nthDigit(n, 1, 10)] + ' ' + \
             (underTwenty[n % 10] if n % 10 > 0 else '')
-        pass
 
     return s
     # d = {0:}
-    suffix = ''
-    prefix = ''
     for exponent in range(numDigits(n, 10)):
         if exponent == 0:
             pass

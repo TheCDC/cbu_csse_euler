@@ -17,14 +17,16 @@ def main():
     boundary = tests[-1][0]
     # print(boundary)
 
-    closest = ((0,0), 0)
+    closest = ((0, 0), 0)
 
-    for x in range(1, int(boundary**(1/2)) + 1):
-        for y in range(1, boundary  + 1):
+    for x in range(1, int(boundary**(1 / 2)) + 1):
+        for y in range(1, boundary + 1):
             if abs(rect_sum(x, y) - N) < abs(closest[1] - N):
                 closest = ((x, y), rect_sum(x, y))
-                
+
     # print(closest)
-    print(closest[0][0]*closest[0][1])
+    print(closest[0][0] * closest[0][1])
+
+
 if __name__ == '__main__':
     main()

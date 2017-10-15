@@ -26,10 +26,10 @@ xmax = len(nums[0])
 ymax = len(nums)
 # print(xmax,ymax,sep='x')
 directions = [
-    [(x,0) for x in range(4)],
-    [(0,x) for x in range(4)],
-    [(x,x) for x in range(4)],
-    [(x,-x) for x in range(4)]
+    [(x, 0) for x in range(4)],
+    [(0, x) for x in range(4)],
+    [(x, x) for x in range(4)],
+    [(x, -x) for x in range(4)]
 ]
 
 ps = []
@@ -41,14 +41,14 @@ for direction in directions:
             for offset in direction:
                 # print(coord)
                 try:
-                    n = nums[x+offset[0]][y+offset[1]]
+                    n = nums[x + offset[0]][y + offset[1]]
                     # print(n)
                     p *= n
                 except IndexError:
                     # print("FAULT")
                     break
-            ps.append([p,(x,y)])
-                # print(p)
+            ps.append([p, (x, y)])
+            # print(p)
 ps.sort()
 # print(max(ps,key = lambda x : x[0]),ps[-20:], len(ps),sep='\n')
-print(max(ps,key = lambda x : x[0])[0])
+print(max(ps, key=lambda x: x[0])[0])

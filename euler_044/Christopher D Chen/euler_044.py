@@ -32,7 +32,7 @@ def np(p) -> float:
 
 
 def test(a, b) -> bool:
-    return np(a + b) % 1 == 0 and np(abs(a-b)) % 1 == 0
+    return np(a + b) % 1 == 0 and np(abs(a - b)) % 1 == 0
 # print([nt(i) for i in [1, 3, 6, 10]])
 # print([np(i) for i in [1, 5, 12, 22]])
 # print([nh(i) for i in [1, 6, 15, 28]])
@@ -48,5 +48,7 @@ def main():
                 print(abs(int(pa - pb)))
                 quit()
         a += 1
+
+
 if __name__ == '__main__':
     main()

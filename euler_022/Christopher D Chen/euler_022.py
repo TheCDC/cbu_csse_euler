@@ -8,4 +8,10 @@ def score(s):
 
 # print(names[:10])
 
-print(sum(score(item)*(index+1) for index, item in enumerate(names)))
+
+def main():
+    print(sum(score(item) * (index + 1) for index, item in enumerate(names)))
+
+
+if __name__ == '__main__':
+    main()

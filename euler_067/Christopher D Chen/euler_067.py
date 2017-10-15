@@ -26,10 +26,12 @@ from euler_018 import max_path
 
 
 def main():
-    with open("resources/triangle.txt") as f:
+    with open("triangle.txt") as f:
         triangle = [[int(j) for j in i.strip().split()]
                     for i in f.read().strip().split('\n')]
     # print(triangle[-2])
     print(max_path(triangle)[0])
+
+
 if __name__ == '__main__':
     main()

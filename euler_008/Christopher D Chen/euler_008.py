@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from utils import numprod
+
 nstr = """73167176531330624919225119674426574742355349194934
 96983520312774506326239578318016984801869478851843
 85861560789112949495459501737958331952853208805511
@@ -20,12 +22,20 @@ nstr = """73167176531330624919225119674426574742355349194934
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450"""
 
+
 nstr = ''.join(nstr.split('\n'))
-# print(nstr)
 
-n = 13
-subs = [nstr[i:i+n] for i in range(0,len(nstr))]
-# print(subs)
 
-from utils import numprod
-print(sorted([(i,numprod([int(j) for j in i])) for i in subs], key=lambda x: x[1])[-1][1])
+def main():
+    # print(nstr)
+
+    n = 13
+    subs = [nstr[i:i + n] for i in range(0, len(nstr))]
+    # print(subs)
+
+    print(sorted([(i, numprod([int(j) for j in i]))
+                  for i in subs], key=lambda x: x[1])[-1][1])
+
+
+if __name__ == '__main__':
+    main()

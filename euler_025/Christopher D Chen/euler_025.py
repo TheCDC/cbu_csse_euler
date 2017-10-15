@@ -25,14 +25,22 @@ The 12th term, F12, is the first term to contain three digits.
 
 What is the index of the first term in the Fibonacci sequence to contain 1000 digits?
 """
-from math import log,ceil
-def nd(n):
-    return ceil(log(n)/log(10))
-i = 2
-a,b = 1,1
-while nd(b) < 1000  :
-    a,b = b, a+b
-    i += 1  
-# print(i,b,nd(b))
-print(i)
+from math import log, ceil
 
+
+def nd(n):
+    return ceil(log(n) / log(10))
+
+
+def main():
+    i = 2
+    a, b = 1, 1
+    while nd(b) < 1000:
+        a, b = b, a + b
+        i += 1
+    # print(i,b,nd(b))
+    print(i)
+
+
+if __name__ == '__main__':
+    main()

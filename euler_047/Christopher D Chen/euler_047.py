@@ -18,14 +18,20 @@ Find the first four consecutive integers to have four distinct prime factors eac
 """
 from utils import primeFactors
 
-found = []
 
-i = 1
-while len(found) < 4:
-    i+= 1
-    if len(set(primeFactors(i))) == 4:
-        found.append(i)
-    else:
-        found = []
+def main():
+    found = []
 
-print(found[0])
+    i = 1
+    while len(found) < 4:
+        i += 1
+        if len(set(primeFactors(i))) == 4:
+            found.append(i)
+        else:
+            found = []
+
+    print(found[0])
+
+
+if __name__ == '__main__':
+    main()
