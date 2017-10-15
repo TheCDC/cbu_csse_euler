@@ -24,11 +24,12 @@ NOTE: Once the chain starts the terms are allowed to go above one million.
 import functools
 
 
-@functools.lru_cache(maxsize=4096*2)
+@functools.lru_cache(maxsize=4096 * 2)
 def collatz(n) -> int:
-    return (n // 2)*((n+1)%2) + (3 * n + 1)*(n%2)
+    return (n // 2) * ((n + 1) % 2) + (3 * n + 1) * (n % 2)
 
 seq_dict = dict()
+
 
 def seqlen(n) -> int:
     nn = n
@@ -39,10 +40,10 @@ def seqlen(n) -> int:
         except KeyError:
             pass
         c = collatz(n)
-        n=c
+        n = c
         l += 1
     l += 1
-    seq_dict.update({n:l})
+    seq_dict.update({n: l})
     # print(nn,l)
     return l
 
@@ -54,7 +55,7 @@ def main():
 
     longest = 0
     N = 0
-    for i in range(2,1000000):
+    for i in range(2, 1000000):
         n = seqlen(i)
         if n > longest:
             longest = n
@@ -63,6 +64,7 @@ def main():
     # with open("014.txt",'w') as f:
     #     f.write('\n'.join(results))
     print(N)
+
 
 if __name__ == "__main__":
     main()
