@@ -64,11 +64,8 @@ st = sum([sum(i) for i in triangle])
 
 
 def pairwise(f, it):
-    out = []
     for i in range(len(it) - 1):
-        r = f(it[i], it[i + 1])
-        out.append(r)
-    return out
+        yield f(it[i], it[i + 1])
 
 
 def max_path(tri):
