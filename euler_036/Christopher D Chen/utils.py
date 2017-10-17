@@ -24,9 +24,13 @@ def isPrime(n):
         return True
     elif n == 1:
         return False
-    for i in range(2, math.ceil(n**(1 / 2) + 1)):
-        if n % i == 0:
-            return False
+    try:
+        for i in range(2, int(n**(1 / 2)) + 1):
+            if n % i == 0:
+                return False
+    except Exception as e:
+        print(e, n)
+        raise e
     return True
 
 
@@ -65,12 +69,12 @@ def numDivisors(n):
 
 def divisors(n):
     """Get all divisors of a number."""
-    l = []
+    l = [1]
     # only needs to loop to n/2
-    for i in range(1, int(n // 2)):
-        if n % i == 0:
-            l.extend([n, n // i])
-    return l
+    for i in range(2, math.ceil(n**(1 / 2))):
+        if (n / i) % 1 == 0:
+            l.extend([i, n // i])
+    return sorted(l)
 
 
 def nthDigit(n, d, base=10):
@@ -87,7 +91,7 @@ def numDigits(n, base=10):
     if base == 1:
         return n
 
-    return math.floor(math.log(n) / math.log(base)) + 1
+    return math.floor(math.log(n) / math.log(base))
 
 
 def digits(n, b):
@@ -100,7 +104,7 @@ def numrepr(n, base):
         d = ''
     else:
         d = ':'
-    return d.join([str(nthDigit(n, i, base)) for i in range(numDigits(n, base), -1, -1)]) + "_{}".format(base)
+    return d.join([str(nthDigit(n, i, base)) for i in range(numDigits(n, base), -1, -1)])
 
 
 def fact(n):
@@ -124,7 +128,6 @@ def main():
     #                for i in ns])
     # pprint.pprint([ for i in ns])
     # pprint.pprint([ for i in ns])
-    assert isPrime(971)
     print(numrepr(13456783, 2))
 
 
