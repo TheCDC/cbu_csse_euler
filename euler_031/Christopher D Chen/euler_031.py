@@ -1,7 +1,7 @@
 from functools import lru_cache
 
 
-@lru_cache(256)
+@lru_cache(maxsize=None)
 def count_configurations(coins: list, current: int, cutoff: int=None):
     # print(current, cutoff)
     if cutoff is None:
@@ -19,6 +19,12 @@ def count_configurations(coins: list, current: int, cutoff: int=None):
 def main():
     coins = tuple(sorted([1, 2, 5, 10, 20, 50, 100, 200]))
     print(count_configurations(coins, 200))
+    try:
+        for amount in range(1, 10000 + 1, 1):
+            print(amount, count_configurations(coins, amount))
+    except RecursionError:
+        print("ERROR")
+    print(count_configurations.cache_info())
 
 
 if __name__ == '__main__':
