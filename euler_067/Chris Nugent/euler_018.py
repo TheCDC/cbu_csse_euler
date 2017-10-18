@@ -11,13 +11,13 @@ def parse_row(row: str) -> list:
 
 
 def main():
-    with open('data.txt') as f:
-        lines = f.read().split('\n')
+    with open('triangle.txt') as f:
+        lines = f.read().strip().split('\n')
 
     totals = parse_row(lines.pop())
     for line in lines[::-1]:
         totals = add_row_to_totals(line, totals)
-    print(totals.pop())
+    print(totals)
 
 
 if __name__ == '__main__':
