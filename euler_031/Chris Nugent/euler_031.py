@@ -10,7 +10,8 @@ def count_solutions(coins: tuple, n: int, money: int) -> int:
     elif money < 0 or n < 1:
         return 0
     # Sum solutions including this coin and not including this coin
-    return count_solutions(coins, n - 1, money) + count_solutions(coins, n, money - coins[n - 1])
+    return count_solutions(coins, n - 1, money) + \
+        count_solutions(coins, n, money - coins[n - 1])
 
 
 def main():
