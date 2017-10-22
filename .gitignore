@@ -129,5 +129,3 @@ ENV/
 # =================== Nim Boilerplate ===================
 nimcache/
 
-euler_[0-9]*$
-

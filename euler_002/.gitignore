@@ -1,0 +1,2 @@
+# don't match extensionless executables
+euler_[0-9]*$
