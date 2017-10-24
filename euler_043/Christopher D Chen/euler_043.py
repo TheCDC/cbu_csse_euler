@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 digits = set(range(10))
 
 
@@ -41,7 +43,6 @@ def main():
             s += list_to_num(digit_list, 10)
             # print(digit_list)
     print(s)
-    # print(i)
 
 
 if __name__ == '__main__':
