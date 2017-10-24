@@ -32,10 +32,18 @@ def numprod(l, default=1):
 
 
 def main():
+    # create list of numbers and their prime factors
     facts = [(i, pfactors(i)) for i in range(1, 21)]
+
+    """Goal:
+    Keep only the single largest exponent for a given prime factor base.
+    i.e. if we have 12 and 6 which have p. factors [2,2,3] and [2,3],
+    respectively, we want [2,2,3]
+    """
+
     counts = dict()
     for i in facts:
-        for j in i[1]:
+        for j in set(i[1]):
             if isPrime(j):
                 counts.update({j: max(i[1].count(j), counts.get(j, 0))})
     out = 1
@@ -43,5 +51,7 @@ def main():
         out *= i[0]**i[1]
     assert out == 232792560, "incorrect"  # found answer on paper
     print(out)
+
+
 if __name__ == '__main__':
     main()
