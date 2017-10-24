@@ -51,15 +51,14 @@ var
   # a place to record the greatest exponenet for each p. factor 
   memory = initTable[int, int]()
   finalProduct = 1
-echo factorPairs
+# echo factorPairs
 
 
 for pair in factorPairs:
-  echo pair
   for fact in pair.factors:
     # identify the greatest exponenet of each prime factor
     memory[fact] = max(@[count(pair.factors, fact), memory.mgetOrPut(fact,0)])
-echo memory
+# echo memory
 
 # calculate the final product from the prmie factors and 
 # their largest recorded exponents.
