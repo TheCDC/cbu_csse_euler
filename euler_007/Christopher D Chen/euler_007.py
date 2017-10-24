@@ -10,7 +10,7 @@ def isPrime(n):
 
 def main():
     # print([(i, isPrime(i)) for i in range(20)])
-    primes = {2}
+    primes = {2, }
     cur = max(primes)
     while len(primes) < 10001:
         cur += 1
