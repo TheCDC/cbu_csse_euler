@@ -29,10 +29,12 @@ from math import log, ceil
 
 
 def nd(n):
+    """Returns nuber of digits of n when expressedi n base-10."""
     return ceil(log(n) / log(10))
 
 
 def main():
+    # generate Fibonaccis until the number of digits >= 1000
     i = 2
     a, b = 1, 1
     while nd(b) < 1000:
