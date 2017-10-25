@@ -35,20 +35,14 @@ def collatz(n) -> int:
 
 @functools.lru_cache(maxsize=None)
 def seqlen(n) -> int:
-    found_length = 0
-    while n > 1:
-        """Notice a separate Collatz function is not used.
-        This is done in order to optimize.
-        """
-        if n % 2 == 0:
-            n = n // 2
-        else:
-            # the odd case can be optimized
-            # odd*3 + 1 will be even, so go ahead and also apply the even case
-            n = (3 * n + 1) // 2
-            found_length += 1
-        found_length += 1
-    return found_length + 1
+    """Return the length of the Collatz sequence starting at n.
+    Must be recursive to easily use memoization."""
+    if n == 1:
+        return 1
+    elif n % 2 == 0:
+        return 1 + seqlen(n // 2)
+    else:
+        return 1 + seqlen(n * 3 + 1)
 
 
 def process_num(n):
