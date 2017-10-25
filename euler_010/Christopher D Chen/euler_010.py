@@ -7,6 +7,7 @@ def main():
     i = primes[-1]
     while primes[-1] < 2000000:
         i += 2
+        # sieving would be faster, but I already wrote isPrime
         if isPrime(i):
             # print(i)
             primes.append(i)
