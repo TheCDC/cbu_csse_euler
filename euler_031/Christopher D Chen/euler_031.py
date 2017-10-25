@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from functools import lru_cache
 
 
@@ -19,12 +20,14 @@ def count_configurations(coins: list, current: int, cutoff: int=None):
 def main():
     coins = tuple(sorted([1, 2, 5, 10, 20, 50, 100, 200]))
     print(count_configurations(coins, 200))
-    try:
-        for amount in range(1, 10000 + 1, 1):
-            print(amount, count_configurations(coins, amount))
-    except RecursionError:
-        print("ERROR")
-    print(count_configurations.cache_info())
+
+    # uncomment if you dare
+    # try:
+    #     for amount in range(1, 1000000 + 1, 1):
+    #         print(amount, count_configurations(coins, amount))
+    # except RecursionError:
+    #     print("ERROR")
+    # print(count_configurations.cache_info())
 
 
 if __name__ == '__main__':
