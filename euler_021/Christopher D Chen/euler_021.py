@@ -2,7 +2,7 @@ from utils import divisors
 from functools import lru_cache
 
 
-@lru_cache(maxsize=1000)
+@lru_cache(maxsize=None)
 def d(n):
     return sum(divisors(n))
 
@@ -10,14 +10,14 @@ def d(n):
 def main():
     known = set()
     for a in range(10000):
-        b = d(a)
+        b = d(a)  # by definition
         db = d(b)
-        if db == a and b != a and not set((a, b)) & known:
-            # print(a, b)
+        # if a and b are amicable
+        if db == a and b != a:
+            # remember them
             known.add(a)
             known.add(b)
 
-    # print(d.cache_info())
     print(sum(known))
 
 
