@@ -22,48 +22,44 @@ NOTE: Once the chain starts the terms are allowed to go above one million.
 """
 
 import functools
+import multiprocessing as mp
 
 
-@functools.lru_cache(maxsize=4096 * 2)
 def collatz(n) -> int:
-    return (n // 2) * ((n + 1) % 2) + (3 * n + 1) * (n % 2)
+    """The Collatz function."""
+    if n % 2 == 0:
+        return n // 2
+    else:
+        return 3 * n + 1
 
-seq_dict = dict()
 
-
+@functools.lru_cache(maxsize=None)
 def seqlen(n) -> int:
-    nn = n
-    l = 0
+    found_length = 0
     while n > 1:
-        try:
-            return l + seq_dict[n]
-        except KeyError:
-            pass
-        c = collatz(n)
-        n = c
-        l += 1
-    l += 1
-    seq_dict.update({n: l})
-    # print(nn,l)
-    return l
+        """Notice a separate Collatz function is not used.
+        This is done in order to optimize.
+        """
+        if n % 2 == 0:
+            n = n // 2
+        else:
+            # the odd case can be optimized
+            # odd*3 + 1 will be even, so go ahead and also apply the even case
+            n = (3 * n + 1) // 2
+            found_length += 1
+        found_length += 1
+    return found_length + 1
+
+
+def process_num(n):
+    return (n, seqlen(n))
 
 
 def main():
-        # print(seqlen(13))
-        # print(seqlen(100))
-        # print(seqlen(10000))
-
-    longest = 0
-    N = 0
-    for i in range(2, 1000000):
-        n = seqlen(i)
-        if n > longest:
-            longest = n
-            N = i
-    # results = [(i,seqlen(i)) for i in range(2, 1000000)]
-    # with open("014.txt",'w') as f:
-    #     f.write('\n'.join(results))
-    print(N)
+    pool = mp.Pool()
+    results = pool.map(process_num, range(2, 10**6))
+    print("{} has the longest chain with {} iterations.".format(
+        *max(results, key=lambda t: t[1])))
 
 
 if __name__ == "__main__":
