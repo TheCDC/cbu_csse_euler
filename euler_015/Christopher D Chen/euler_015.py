@@ -17,7 +17,7 @@ def branches(coord, shape):
     # if x < xbound:
 
 
-@functools.lru_cache(maxsize=32)
+@functools.lru_cache(maxsize=None)
 def numPaths(shape, coord=(0, 0)):
     bs = branches(coord, shape)
     # print(len(bs))
