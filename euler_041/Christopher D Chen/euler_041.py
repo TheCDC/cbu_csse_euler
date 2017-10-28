@@ -7,7 +7,7 @@ def generate_pandigitals(start=1, stop=None):
     if stop is None:
         stop = 10
     for i in range(start, stop):
-        yield from permutations(set(range(i)))
+        yield from permutations(set(range(1, i + 1)))
 
 
 def list_to_num(l, b=10):
