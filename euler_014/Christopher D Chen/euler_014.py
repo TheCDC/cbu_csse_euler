@@ -49,11 +49,17 @@ def process_num(n):
     return (n, seqlen(n))
 
 
+def blah(_):
+    print(seqlen.cache_info())
+
+
 def main():
-    pool = mp.Pool()
-    results = pool.map(process_num, range(2, 10**6))
+    pool = mp.Pool(8)
+    results = pool.map_async(process_num, range(2, 10**6), callback=blah)
+    pool.close()
+    pool.join()
     print("{} has the longest chain with {} iterations.".format(
-        *max(results, key=lambda t: t[1])))
+        *max(results.get(), key=lambda t: t[1])))
 
 
 if __name__ == "__main__":
