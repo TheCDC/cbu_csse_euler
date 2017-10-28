@@ -30,12 +30,13 @@ def test_next_number():
 
 def test_is_palindrome():
     cases = [
-        121,
-        7337,
-        99999,
-        999,
-        12344321,
-        55555555,
+        (121, True),
+        (7337, True),
+        (99999, True),
+        (999, True),
+        (12344321, True),
+        (55555555, True),
+        (55555550, False),
     ]
     for c in cases:
-        assert is_palindrome(c)
+        assert is_palindrome(c[0]) == c[1]

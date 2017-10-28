@@ -44,6 +44,9 @@ def next_number(n):
 
 
 class Cache():
+    """A custom caching class.
+    Used instead of functools.lru_cache
+    in order to ignore arbitary arguments to a function."""
 
     def __init__(self):
         self.memory = dict()
