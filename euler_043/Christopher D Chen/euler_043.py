@@ -1,24 +1,10 @@
 #!/usr/bin/env python3
-
+import multiprocessing as mp
+from itertools import permutations
 digits = set(range(10))
 
 
-def generate_pandigitals(current=None, unused=None):
-    if not current:
-        current = []
-    if not unused:
-        unused = set(digits)
-    if len(unused) == 1:
-            # yield a single item list
-            # this allows for results to be concatenated
-        yield current + [next(iter(unused))]
-    else:
-        for d in sorted(unused):
-            yield from generate_pandigitals(
-                current + [d], unused.difference({d}))
-
-
-def list_to_num(l, b):
+def list_to_num(l, b=10):
     n = 0
     for i in l:
         n = n * b + i
@@ -36,13 +22,18 @@ def check_substr_divibility(l):
     return True
 
 
+def check_num(digit_list):
+    if check_substr_divibility(digit_list):
+        return list_to_num(digit_list)
+    else:
+        return 0
+
+
 def main():
-    s = 0
-    for digit_list in generate_pandigitals():
-        if check_substr_divibility(digit_list):
-            s += list_to_num(digit_list, 10)
-            # print(digit_list)
-    print(s)
+    pool = mp.Pool()
+    results = pool.map(check_num, permutations(set(range(10))))
+    # results = map(check_num, permutations(set(range(10))))
+    print(sum(results))
 
 
 if __name__ == '__main__':
