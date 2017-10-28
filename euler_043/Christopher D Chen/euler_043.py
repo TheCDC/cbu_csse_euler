@@ -4,6 +4,10 @@ from itertools import permutations
 digits = set(range(10))
 
 
+def generate_pandigitals():
+    yield from permutations(set(range(10)))
+
+
 def list_to_num(l, b=10):
     n = 0
     for i in l:
@@ -31,7 +35,7 @@ def check_num(digit_list):
 
 def main():
     pool = mp.Pool()
-    results = pool.map(check_num, permutations(set(range(10))))
+    results = pool.map(check_num, generate_pandigitals())
     # results = map(check_num, permutations(set(range(10))))
     print(sum(results))
 
