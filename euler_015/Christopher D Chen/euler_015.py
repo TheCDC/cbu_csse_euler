@@ -24,19 +24,15 @@ def numPaths(shape, coord=(0, 0)):
     # print(xbound,ybound)
     xbound, ybound = shape
     if len(bs) == 0:
-        # print(xbound, ybound)
-        # print()
         return 1
     else:
         return sum([numPaths(shape, i) for i in bs])
-        # rules
 
 
 def main():
     gridWidth = 20
     gridHeight = 20
 
-    # print([numPaths((i,i)) for i in range(15)])
     print(numPaths((gridWidth + 1, gridHeight + 1)))
 
 if __name__ == '__main__':
