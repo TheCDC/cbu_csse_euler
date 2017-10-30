@@ -1,7 +1,7 @@
 from utils import divisors
 
 
-def relevant_abundents(n):
+def relevant_abundants(n):
     result = []
     for i in range(1, n):
         if sum(divisors(i)) > i:
@@ -10,13 +10,13 @@ def relevant_abundents(n):
 
 
 def main(n=30000):
-    print('Finding abundents...')
-    abundents = relevant_abundents(n)
+    print('Finding abundants...')
+    abundants = relevant_abundants(n)
     print('Declaring flags...')
     flags = [False for i in range(n + 1)]
     print('Marking flags...')
-    for a in abundents:
-        for b in abundents:
+    for a in abundants:
+        for b in abundants:
             if a + b >= n:
                 break
             flags[a + b] = True
