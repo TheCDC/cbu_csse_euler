@@ -1,6 +1,6 @@
 import functools
 import multiprocessing
-
+import os
 
 @functools.lru_cache(maxsize=None)
 def is_prime(num):
@@ -14,11 +14,17 @@ def is_prime(num):
     return True
 
 
-def f(a):
-    # print('Checking for a = {}'.format(a))
+def f(targs):
+    """Solution is setup in this slightly ugly way since it
+    was modified on a whim to support multiprocessing"""
+    # Even values for b always produce a score of 0, so
+    # we only check odds.    
+    a, bmin, bmax = targs
+    if bmin % 2 == 0:
+        bmin += 1
     best_a, best_b = None, None
     best = -1
-    for b in range(-999, 999, 2):
+    for b in range(bmin, bmax, 2):
         n = 0
         test = b
         while is_prime(test):
@@ -30,15 +36,16 @@ def f(a):
     return a, best_b, best
 
 
-main():
-    threads = 4
-    amax = 1000
+def main(xmin, xmax, ymin, ymax):
+    threads = os.cpu_count()
+    print('Detected {} virtual CPUs, running with {} threads...\n'.format(threads, threads))
     pool = multiprocessing.Pool(threads)
-
-    print('Running with {} threads...'.format(threads))
-    m = pool.map(f, range(-amax, amax))
+    xs = range(xmin, xmax)
+    ymins = [ymin] * (xmax - xmin)
+    ymaxes = [ymax] * (xmax - xmin)
+    m = pool.map(f, zip(xs, ymins, ymaxes))
     vals = max(m, key=lambda x: x[2])
     print('n^2 + {}n + {} produced {} consecutive primes.'.format(*vals))
 
 if __name__ == '__main__':
-    main()
+    main(-999, 1000, -1000, 1001)
