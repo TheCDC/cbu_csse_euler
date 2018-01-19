@@ -19,12 +19,10 @@ def f(targs):
     was modified on a whim to support multiprocessing"""
     # Even values for b always produce a score of 0, so
     # we only check odds.    
-    a, bmin, bmax = targs
-    if bmin % 2 == 0:
-        bmin += 1
+    a, bmax = targs
     best_a, best_b = None, None
     best = -1
-    for b in range(bmin, bmax, 2):
+    for b in range(1, bmax, 2):
         n = 0
         test = b
         while is_prime(test):
@@ -36,16 +34,15 @@ def f(targs):
     return a, best_b, best
 
 
-def main(xmin, xmax, ymin, ymax):
+def main(xmin, xmax, ymax):
     threads = os.cpu_count()
     print('Detected {} virtual CPUs, running with {} threads...\n'.format(threads, threads))
     pool = multiprocessing.Pool(threads)
     xs = range(xmin, xmax)
-    ymins = [ymin] * (xmax - xmin)
     ymaxes = [ymax] * (xmax - xmin)
-    m = pool.map(f, zip(xs, ymins, ymaxes))
+    m = pool.map(f, zip(xs, ymaxes))
     vals = max(m, key=lambda x: x[2])
     print('n^2 + {}n + {} produced {} consecutive primes.'.format(*vals))
 
 if __name__ == '__main__':
-    main(-999, 1000, -1000, 1001)
+    main(-999, 1000, 1001)
