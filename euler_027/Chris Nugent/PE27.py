@@ -1,7 +1,6 @@
 import functools
 import multiprocessing
 import os
-import time
 
 
 @functools.lru_cache(maxsize=None)
@@ -24,7 +23,7 @@ def f(targs):
     # Even values for b always produce a score of 0, so
     # we only check odds.
     a, bmax = targs
-    best_a, best_b = None, None
+    best_b = None
     best = -1
     for b in range(1, bmax, 2):
         n = 0
