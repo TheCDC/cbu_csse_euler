@@ -2,7 +2,7 @@ from utils import numrepr
 
 
 def test(i):
-    a = numrepr(i, 2)
+    a = bin(i).split('b')[1]
     b = str(i)
     return (b[::-1] == b) and (a == a[::-1])
 
