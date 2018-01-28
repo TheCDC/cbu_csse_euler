@@ -1,7 +1,7 @@
 import sys
 import nqueens
 import argparse
-
+import time
 parser = argparse.ArgumentParser("Generate solutions to the N-Queens problem.")
 
 parser.add_argument(
@@ -40,10 +40,18 @@ parser.add_argument(
 parser.add_argument(
     '-b',
     '--batch-size',
-    help='Size of iteration batches for processes..',
+    help='Size of iteration batches for processes.',
     default=10000,
     type=int,
     metavar='batch_size',
+)
+
+parser.add_argument(
+    '--print-step',
+    help='Size of solutions in between printing.',
+    default=1,
+    type=int,
+    metavar='print_step',
 )
 
 parser.add_argument(
@@ -85,10 +93,14 @@ def main():
     # quit()
     algo = wrapper(args.multiprocess, N, args.weakness,
                    args.processes, args.batch_size)
+    ti = time.time()
+    t_start = ti
     c = 0
     for s in algo():
-        if not args.quiet:
-            print(f"{c}")
+        tf = time.time()
+        if not args.quiet and c % args.print_step == 0:
+            print(f"{c}, delta_t={tf-ti:.2f}, t={tf-t_start:.2f}")
+            ti = time.time()
             if args.verbose:
                 print(nqueens.render(s, N))
         c += 1

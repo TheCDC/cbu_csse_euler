@@ -7,13 +7,13 @@ class Sentinel(Enum):
     STACK_END = 0
 
 
-def generate_next_partials(partial=None, n=8):
+def generate_next_partials(partial=None, n=8, w=0):
     if partial is None:
         partial = list()
     if len(partial) < n:
         for i in range(n):
             p = partial + [i]
-            if check_newest(p):
+            if check_newest(p, n, w):
                 yield p
 
 
@@ -35,19 +35,23 @@ def is_valid(l):
     return True
 
 
-def check_newest(psol):
+def check_newest(psol, n, w):
     """A fast partial solution checker.
     It's O(n) because it assumes that only the newly placed
     piece could possibly be in error.
     """
+    limit = n - 1 - w
     y = len(psol) - 1
     x = psol[y]
     for y2 in range(y):
         x2 = psol[y2]
-        xdif = x2 - x
-        ydif = y2 - y
-        if xdif == 0 or xdif == ydif or xdif == -ydif:
+        xdiff = x2 - x
+        ydiff = y - y2
+        if xdiff == 0 and ydiff <= limit:
             return False
+        if xdiff == ydiff or xdiff == -ydiff:
+            if ydiff <= limit:
+                return False
     return True
 
 
@@ -66,22 +70,22 @@ def render(l, n):
     return '\n'.join(out)
 
 
-def generate_solutions(n=8):
+def generate_solutions(n=8, w=0):
     N = n
     queue = list()
     # prefill
-    for x in generate_next_partials(n=n):
+    for x in generate_next_partials(n=n, w=w):
         queue.append(x)
     while len(queue) > 0:
-        x = queue.pop(0)
+        x = queue.pop()
         if is_final(x, N):
             yield x
         else:
-            for xx in generate_next_partials(x, N):
+            for xx in generate_next_partials(x, N, w):
                 queue.append(xx)
 
 
-def worker(n, batch_size, inqueue, outqueue):
+def worker(n, w, batch_size, inqueue, outqueue):
     """Multiprocessing worker."""
     internal_queue = list()
     while True:
@@ -106,7 +110,7 @@ def worker(n, batch_size, inqueue, outqueue):
             if is_final(sub_partial, n):
                 outqueue.put(sub_partial)
             else:
-                for next_partial in generate_next_partials(sub_partial, n):
+                for next_partial in generate_next_partials(sub_partial, n, w):
                     internal_queue.append(next_partial)
 
         while len(internal_queue) > 0:
@@ -114,7 +118,7 @@ def worker(n, batch_size, inqueue, outqueue):
             inqueue.append(x)
 
 
-def generate_solutions_multiprocessed(n=8, num_processes=os.cpu_count(), batch_size=1000):
+def generate_solutions_multiprocessed(n=8, w=0, num_processes=os.cpu_count(), batch_size=1000):
     num_workers = num_processes
     # instantiate a manager to manage a list
     # a list is necessary in order to have a LIFO queue
@@ -130,12 +134,12 @@ def generate_solutions_multiprocessed(n=8, num_processes=os.cpu_count(), batch_s
         # spawn and start workers
         workers = []
         for _ in range(num_workers):
-            w = multiprocessing.Process(
+            worker_process = multiprocessing.Process(
                 target=worker,
-                args=(n, batch_size, partials_queue, solutions_queue))
-            workers.append(w)
-        for w in workers:
-            w.start()
+                args=(n, w, batch_size, partials_queue, solutions_queue))
+            workers.append(worker_process)
+        for worker_process in workers:
+            worker_process.start()
         # yield from the queue until all worker have exited
         found_exit_codes = 0
         while found_exit_codes < num_workers:
@@ -144,5 +148,5 @@ def generate_solutions_multiprocessed(n=8, num_processes=os.cpu_count(), batch_s
                 found_exit_codes += 1
             else:
                 yield s
-        for w in workers:
-            w.join()
+        for worker_process in workers:
+            worker_process.join()
