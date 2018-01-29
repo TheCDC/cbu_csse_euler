@@ -1,4 +1,3 @@
-import sys
 import nqueens
 import argparse
 import time
@@ -73,16 +72,15 @@ parser.add_argument(
 
 def wrapper(multi, n, weakness, nprocesses, batch):
     if multi:
+
         def wrapped():
             yield from nqueens.generate_solutions_multiprocessed(
-                n=n,
-                w=weakness,
-                num_processes=nprocesses,
-                batch_size=batch
-            )
+                n=n, w=weakness, num_processes=nprocesses, batch_size=batch)
     else:
+
         def wrapped():
             yield from nqueens.generate_solutions(n=n, w=weakness)
+
     return wrapped
 
 
@@ -91,8 +89,8 @@ def main():
     N = args.N
     # print(vars(args))
     # quit()
-    algo = wrapper(args.multiprocess, N, args.weakness,
-                   args.processes, args.batch_size)
+    algo = wrapper(args.multiprocess, N, args.weakness, args.processes,
+                   args.batch_size)
     ti = time.time()
     t_start = ti
     c = 0

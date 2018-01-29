@@ -17,7 +17,7 @@ def generate_next_partials(partial=None, n=8, w=0):
                 yield p
 
 
-def is_valid(l):
+def is_valid(l: "List[int]") -> bool:
     for a in range(len(l)):
         ai = l[a]
         for b in range(a + 1, len(l)):
@@ -35,7 +35,7 @@ def is_valid(l):
     return True
 
 
-def check_newest(psol, n, w):
+def check_newest(psol, n: int, w: int) -> bool:
     """A fast partial solution checker.
     It's O(n) because it assumes that only the newly placed
     piece could possibly be in error.
@@ -43,23 +43,25 @@ def check_newest(psol, n, w):
     limit = n - 1 - w
     y = len(psol) - 1
     x = psol[y]
-    for y2 in range(y):
+    # only have to iterate as far back as the range of a queen (inclusive)
+    for y2 in range(max(y - limit, 0), y):
         x2 = psol[y2]
-        xdiff = x2 - x
-        ydiff = y - y2
+        xdiff = x2 - x  # may be positive or negative
+        ydiff = y - y2  # always positive
         if xdiff == 0 and ydiff <= limit:
             return False
         if xdiff == ydiff or xdiff == -ydiff:
+            # use ydiff because it's always positive
             if ydiff <= limit:
                 return False
     return True
 
 
-def is_final(l, n):
+def is_final(l, n: int) -> bool:
     return len(l) == n
 
 
-def render(l, n):
+def render(l, n: int) -> str:
     line = ['-'] * n
     out = list()
     for i in l:
@@ -70,13 +72,18 @@ def render(l, n):
     return '\n'.join(out)
 
 
-def generate_solutions(n=8, w=0):
+def generate_solutions(n=8, w=0, print_step=None):
     N = n
     queue = list()
     # prefill
     for x in generate_next_partials(n=n, w=w):
         queue.append(x)
+    step = 0
     while len(queue) > 0:
+        if print_step:
+            if step % print_step == 0:
+                print(step)
+        step += 1
         x = queue.pop()
         if is_final(x, N):
             yield x
@@ -118,7 +125,10 @@ def worker(n, w, batch_size, inqueue, outqueue):
             inqueue.append(x)
 
 
-def generate_solutions_multiprocessed(n=8, w=0, num_processes=os.cpu_count(), batch_size=1000):
+def generate_solutions_multiprocessed(n=8,
+                                      w=0,
+                                      num_processes=os.cpu_count(),
+                                      batch_size=1000):
     num_workers = num_processes
     # instantiate a manager to manage a list
     # a list is necessary in order to have a LIFO queue
