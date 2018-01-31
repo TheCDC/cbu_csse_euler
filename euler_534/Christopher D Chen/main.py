@@ -108,7 +108,7 @@ def main():
         for s in algo():
             tf = time.time()
             if not args.quiet and c % args.print_step == 0:
-                print(f"{c}, delta_t={tf-ti:.2f}, t={tf-t_start:.2f}")
+                print(f"{c}, delta_t={tf-ti:.3f}, t={tf-t_start:.3f}")
                 ti = time.time()
                 if args.verbose:
                     print(nqueens.render(s, N))

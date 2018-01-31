@@ -56,8 +56,9 @@ class QueensPartialSolution:
 
             if xdiff > self.limit:
                 return True
-
-            self.filled_spaces[y_existing].update([x, x + xdiff, x - xdiff])
+            col = self.filled_spaces[y_existing].copy()
+            col.update([x, x + xdiff, x - xdiff])
+            self.filled_spaces[y_existing] = col
         self.filled_spaces[y] = self.numbers
 
         return True
@@ -66,8 +67,8 @@ class QueensPartialSolution:
         qps = QueensPartialSolution(
             self.n,
             self.w,
-            filled_spaces=[i.copy() for i in self.filled_spaces],
-            queens=self.queens.copy(),
+            filled_spaces=self.filled_spaces[:],
+            queens=self.queens[:],
             num_queens=self.num_queens)
         return qps
 
@@ -217,8 +218,7 @@ def generate_solutions_oop(n=8, w=0, print_step=None):
     N = n
     queue = list()
     # prefill
-    for x in generate_next_partials_oop(partial=None, n=n, w=w):
-        queue.append(x)
+    queue.extend(generate_next_partials_oop(partial=None, n=n, w=w))
     step = 0
     while len(queue) > 0:
         if print_step:
@@ -229,8 +229,7 @@ def generate_solutions_oop(n=8, w=0, print_step=None):
         if is_final_oop(x):
             yield x
         else:
-            for xx in generate_next_partials_oop(x, N, w):
-                queue.append(xx)
+            queue.extend(generate_next_partials_oop(x, N, w))
 
 
 def worker(n, w, batch_size, inqueue, outqueue):
