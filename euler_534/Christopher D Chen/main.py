@@ -28,6 +28,12 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    '--oop',
+    default=False,
+    help="""Enable the oop representation of solutions.""",
+    action='store_true',
+)
+parser.add_argument(
     '-p',
     '--processes',
     help='Number of processes to execute in parallel.',
@@ -70,12 +76,16 @@ parser.add_argument(
 )
 
 
-def wrapper(multi, n, weakness, nprocesses, batch):
+def wrapper(multi, n, weakness, nprocesses, batch, oop=False):
     if multi:
 
         def wrapped():
             yield from nqueens.generate_solutions_multiprocessed(
                 n=n, w=weakness, num_processes=nprocesses, batch_size=batch)
+    elif oop:
+
+        def wrapped():
+            yield from nqueens.generate_solutions_oop(n=n, w=weakness)
     else:
 
         def wrapped():
@@ -90,18 +100,21 @@ def main():
     # print(vars(args))
     # quit()
     algo = wrapper(args.multiprocess, N, args.weakness, args.processes,
-                   args.batch_size)
+                   args.batch_size, args.oop)
     ti = time.time()
     t_start = ti
     c = 0
-    for s in algo():
-        tf = time.time()
-        if not args.quiet and c % args.print_step == 0:
-            print(f"{c}, delta_t={tf-ti:.2f}, t={tf-t_start:.2f}")
-            ti = time.time()
-            if args.verbose:
-                print(nqueens.render(s, N))
-        c += 1
+    try:
+        for s in algo():
+            tf = time.time()
+            if not args.quiet and c % args.print_step == 0:
+                print(f"{c}, delta_t={tf-ti:.2f}, t={tf-t_start:.2f}")
+                ti = time.time()
+                if args.verbose:
+                    print(nqueens.render(s, N))
+            c += 1
+    except KeyboardInterrupt:
+        pass
     print(c)
 
 
